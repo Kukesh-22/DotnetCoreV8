@@ -1,6 +1,5 @@
 ﻿using Dotnet_v8.Context;
 using Dotnet_v8.Models.Domain;
-using Dotnet_v8.Models.DTOs;
 using Microsoft.EntityFrameworkCore;
 
 namespace Dotnet_v8.Repository

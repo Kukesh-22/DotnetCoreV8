@@ -8,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<V8DBContext>(db => db.UseSqlServer(builder.Configuration.GetConnectionString("connectionString")));
 
 builder.Services.AddScoped<IRegionRepository, RegionRepository>();
+builder.Services.AddScoped<IWalksRepository, WalksRepository>();
 builder.Services.AddAutoMapper(typeof(AutoMappingProfiles));
 
 builder.Services.AddControllers();
