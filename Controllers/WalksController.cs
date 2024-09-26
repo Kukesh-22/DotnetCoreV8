@@ -30,6 +30,7 @@ namespace Dotnet_v8.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateWalk([FromBody] AddWalkRequestDto walkRequest)
         {
+
             var walk = _mapper.Map<Walk>(walkRequest);
             await _walksRepository.CreateAsync(walk);
             return Ok(_mapper.Map<WalkDto>(walk));

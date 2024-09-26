@@ -1,15 +1,18 @@
 ﻿using AutoMapper;
 using Dotnet_v8.Context;
+using Dotnet_v8.CustomActionFilter;
 using Dotnet_v8.Models.Domain;
 using Dotnet_v8.Models.DTOs;
 using Dotnet_v8.Repository;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace NZWalks.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RegionsController(V8DBContext context, IRegionRepository repository,IMapper mapper) : ControllerBase
+    public class RegionsController(V8DBContext context, IRegionRepository repository, IMapper mapper) : ControllerBase
     {
         private readonly V8DBContext _context = context;
         private readonly IRegionRepository _repository = repository;
@@ -41,26 +44,17 @@ namespace NZWalks.API.Controllers
         }
 
         [HttpPost]
+        [ValidateModel]
         //[Authorize(Roles = "Writer")]
         public async Task<IActionResult> Create([FromBody] AddRegionRequestDto addRegionRequestDto)
         {
-            var region = new Region
-            {
-                Code = addRegionRequestDto.Code,
-                Name = addRegionRequestDto.Name,
-                RegionImageUrl = addRegionRequestDto.RegionImageUrl
-            };
+            var region = _mapper.Map<Region>(addRegionRequestDto);
+
             region = await _repository.CreateAsync(region);
 
-            var regionDto = new RegionDto
-            {
-                Id = region.Id,
-                Code = region.Code,
-                Name = region.Name,
-                RegionImageUrl = region.RegionImageUrl
-            };
+            var regionResponse = _mapper.Map<RegionDto>(region);
 
-            return CreatedAtAction(nameof(GetById), new { id = regionDto.Id }, regionDto);
+            return CreatedAtAction(nameof(GetById), new { id = regionResponse.Id }, regionResponse);
         }
 
         [HttpPut]
