@@ -15,9 +15,10 @@ namespace Dotnet_v8.Controllers
         private readonly IMapper _mapper = mapper;
 
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] string? filterOn, [FromQuery] string? filterQuery,
+            [FromQuery] string? sortBy, [FromQuery] bool? isAscending, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 1000)
         {
-            var walksRecord = await _walksRepository.GetAllWalks();
+            var walksRecord = await _walksRepository.GetAllWalks(filterOn, filterQuery, sortBy, isAscending ?? true, pageNumber, pageSize);
             return Ok(_mapper.Map<List<WalkDto>>(walksRecord));
         }
         [HttpGet]

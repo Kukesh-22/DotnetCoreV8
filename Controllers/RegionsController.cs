@@ -5,8 +5,6 @@ using Dotnet_v8.Models.Domain;
 using Dotnet_v8.Models.DTOs;
 using Dotnet_v8.Repository;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace NZWalks.API.Controllers
 {
